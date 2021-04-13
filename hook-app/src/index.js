@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MemoHook } from './components/06-memos/MemoHook';
+// import { CallbackHook } from './components/06-memos/CallbackHook';
+import { Padre } from './components/07-tarea-memo/Padre';
+// import { MemoHook } from './components/06-memos/MemoHook';
 // import { FocusScreen } from './components/04-useRef/FocusScreen';
 // import { RealExampleRef } from './components/04-useRef/RealExampleRef';
 // import { Layout } from './components/05-useLayout/Layout';
@@ -23,7 +25,9 @@ ReactDOM.render(
     // <RealExampleRef/>,
     // <Layout/>,
     // <Memorize/>,
-    <MemoHook/>,
+    // <MemoHook/>,
+    // <CallbackHook/>,
+    <Padre/>,
   // </React.StrictMode>,
   document.getElementById('root')
 );

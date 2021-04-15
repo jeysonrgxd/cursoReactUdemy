@@ -14,12 +14,9 @@ export const Padre = () => {
     // }
     
     //creamos una funcion que no este cambiando 
-    const incrementar = useCallback(
-        (num) => {
+    const incrementar = useCallback((num) => {
             setValor(c=> c + num)
-        },
-        [setValor],
-    )
+    },[setValor])
 
 
     return (

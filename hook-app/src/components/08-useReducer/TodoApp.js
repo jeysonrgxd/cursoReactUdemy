@@ -29,7 +29,7 @@ export const TodoApp = () => {
 
    // recibe una funcion donde especificamos la acion el cual cambiara nuestro estado, luego recive el estado inicial, tambien recive otro parametro init pero hay que estudiarla ams adelante,
 
-   // el dispatch es la funcion en donde le pasaremos una accion el cual tiene que tener el typo y el payload(informacion), el typo por que este enviara esos datos al todoReducer que es donde creamos todas nuestras acciones que manipulan el stado , es por eso el useReducer recive primero la especificacion de las acciones que tendra el estado y el otro parametro es el estado inicial, este hook devuelve un stado nuevo ya procesado en todoReducer o funcion manejadora de accion a cambiar para el stado
+   // el dispatch es la funcion en donde le pasaremos una accion el cual tiene que tener el typo y el payload(informacion), el typo por que este enviara esos datos al todoReducer que es donde creamos todas nuestras acciones que manipulan el stado , es por eso el useReducer recive primero la especificacion de las acciones que tendra el estado y el otro parametro es el estado inicial, este hook devuelve un stado nuevo ya procesado en todoReducer o funcion manejadora de accion a cambiar para el stado 
 
    // const [todos, dispatch] = useReducer(todoReducer, initialState)
    // usamos el init para poder compilar todo y pasar el resultado al initalState
@@ -85,6 +85,14 @@ export const TodoApp = () => {
 
    }
 
+   const handleToggle = (todoid) =>{
+
+      dispatch({
+         type:"toggle",
+         payload:todoid
+      })
+   }
+
    return (
       <div>
          <h1>TodoApp {todos.length}</h1>
@@ -95,7 +103,10 @@ export const TodoApp = () => {
                   {
                      todos.map((todo, i) => {
                         return <li key={todo.id} className="list-group-item">
-                           <p className="text-center">{i + 1}. {todo.desc}</p>
+                           <p 
+                              className={(todo.done === true) && 'complete'}
+                              onClick={()=> handleToggle(todo.id)}
+                              >{i + 1}. {todo.desc}</p>
                            <button
                               className="btn btn-danger"
                               onClick={() => handleDelete(todo.id)}

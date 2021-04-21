@@ -3,6 +3,7 @@ import { todoReducer } from './todoReducer' //importamos la funcion que tendra n
 import { useForm } from '../../hooks/useForm'
 
 import './style.css'
+import { TodoList } from './TodoList'
 
 // estado inicial para pasarselo ami useReducer
 // const initialState = [{
@@ -76,8 +77,8 @@ export const TodoApp = () => {
 
       // creamos la accion que sera llamada para el useReducer
       let action = {
-         type:"delete",
-         payload:todoId
+         type: "delete",
+         payload: todoId
       }
 
       // ejecutamos el dispátch para cambiar y devolver el estado nuevo
@@ -85,11 +86,11 @@ export const TodoApp = () => {
 
    }
 
-   const handleToggle = (todoid) =>{
+   const handleToggle = (todoid) => {
 
       dispatch({
-         type:"toggle",
-         payload:todoid
+         type: "toggle",
+         payload: todoid
       })
    }
 
@@ -99,22 +100,11 @@ export const TodoApp = () => {
          <br />
          <div className="row">
             <div className="col-7">
-               <ul className="list-group list-group-flush">
-                  {
-                     todos.map((todo, i) => {
-                        return <li key={todo.id} className="list-group-item">
-                           <p 
-                              className={(todo.done === true) && 'complete'}
-                              onClick={()=> handleToggle(todo.id)}
-                              >{i + 1}. {todo.desc}</p>
-                           <button
-                              className="btn btn-danger"
-                              onClick={() => handleDelete(todo.id)}
-                           >Borrar</button>
-                        </li>
-                     })
-                  }
-               </ul>
+               <TodoList
+                  todos={todos}
+                  handleDelete={handleDelete}
+                  handleToggle={handleToggle}
+               ></TodoList>
             </div>
             <div className="col-5">
                <h4>Agregar TODO</h4>

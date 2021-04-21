@@ -1,9 +1,10 @@
 import React, { useEffect, useReducer } from 'react'
 import { todoReducer } from './todoReducer' //importamos la funcion que tendra nuestras accione spara modificar el stado se useReducer
-import { useForm } from '../../hooks/useForm'
+// import { useForm } from '../../hooks/useForm'
+import { TodoList } from './TodoList'
+import { TodoAdd } from './TodoAdd'
 
 import './style.css'
-import { TodoList } from './TodoList'
 
 // estado inicial para pasarselo ami useReducer
 // const initialState = [{
@@ -36,40 +37,47 @@ export const TodoApp = () => {
    // usamos el init para poder compilar todo y pasar el resultado al initalState
    const [todos, dispatch] = useReducer(todoReducer, [], init)
 
-   const [{ description }, handleInput, reset] = useForm({
-      description: ''
-   })
+   // const [{ description }, handleInput, reset] = useForm({
+   //    description: ''
+   // })
 
    useEffect(() => {
       localStorage.setItem("todos", JSON.stringify(todos))
 
    }, [todos]) // si los todos cambian tengo que volver a grabar en el local storage
 
-   const handleSubmit = (event) => {
-
-      event.preventDefault()
-
-      if (description.trim().length <= 1) {
-         return;
-      }
-
-      let newTodo = {
-         id: new Date().getTime(),
-         desc: description,
-         done: false
-
-      }
-
-      let action = {
+   const handleAdd = (newTodo) => {
+      dispatch({
          type: "add",
          payload: newTodo
-      }
-
-      dispatch(action)
-
-      reset()
-
+      })
    }
+
+   // const handleSubmit = (event) => {
+
+   //    event.preventDefault()
+
+   //    if (description.trim().length <= 1) {
+   //       return;
+   //    }
+
+   //    let newTodo = {
+   //       id: new Date().getTime(),
+   //       desc: description,
+   //       done: false
+
+   //    }
+
+   //    let action = {
+   //       type: "add",
+   //       payload: newTodo
+   //    }
+
+   //    dispatch(action)
+
+   //    reset()
+
+   // }
 
    const handleDelete = (todoId) => {
 
@@ -107,25 +115,7 @@ export const TodoApp = () => {
                ></TodoList>
             </div>
             <div className="col-5">
-               <h4>Agregar TODO</h4>
-               <hr />
-               <form
-                  onSubmit={handleSubmit}
-                  action="">
-                  <input
-                     className="form-control"
-                     type="text"
-                     name="description"
-                     value={description}
-                     placeholder="Aprender ...."
-                     autoComplete="off"
-                     onChange={handleInput}
-                  />
-                  <button
-                     type="submit"
-                     className="btn btn-outline-primary btn-block mt-2 "
-                  >Agregar</button>
-               </form>
+               <TodoAdd handleAdd={handleAdd} />
             </div>
          </div>
 

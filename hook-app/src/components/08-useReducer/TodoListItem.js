@@ -5,7 +5,7 @@ export const TodoListItem = ({ todo, i, handleDelete, handleToggle }) => {
       <>
          <li key={todo.id} className="list-group-item">
             <p
-               className={(todo.done === true) && 'complete'}
+               className={(todo.done === true) ? 'complete' : ''}
                onClick={() => handleToggle(todo.id)}
             >{i + 1}. {todo.desc}</p>
             <button

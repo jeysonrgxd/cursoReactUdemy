@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -18,11 +19,13 @@ export const AppRoter = () => {
             <div>
                 <NavBar></NavBar>
                 {/* Ponemos un switch para especificar la ruta con el componente a cargar */}
-                <Switch>
-                    <Route exact path="/" component={HomeScreen}></Route>
-                    <Route exact path="/about" component={AboutScreen}></Route>
-                    <Route exact path="/login" component={LoginScreen}></Route>
-                </Switch>
+                <div className="container">
+                    <Switch>
+                        <Route exact path="/" component={HomeScreen}></Route>
+                        <Route exact path="/about" component={AboutScreen}></Route>
+                        <Route exact path="/login" component={LoginScreen}></Route>
+                    </Switch>
+                </div>
             </div>
         </Router>
     )

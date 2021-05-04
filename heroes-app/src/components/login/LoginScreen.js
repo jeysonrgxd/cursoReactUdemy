@@ -1,14 +1,14 @@
 import React from 'react'
 
-// en los props nos viene informacion de acuerdo al router el cuale s nuestor componente que
+// en los props nos viene informacion de acuerdo al router el cual es nuestro componente que
 //envuelve todo , usamos uno de esos que es history para navegar
 export const LoginScreen = ({history}) => {
 
     const handleLogin = () =>{
-        history.push("/") // navegamos a la ruta principal "/"
+        // history.push("/") // navegamos a la ruta principal "/"
 
         // remplazamos la ruta "/login" con la principal "/" esto es para no regresar al 
-        //login una vez entrado al dashboard, esto se ve util cuando se da atras
+        // login una vez entrado al dashboard, esto se ve util cuando se da atras
         history.replace("/") 
 
     }

@@ -24,8 +24,9 @@ export const AppRouter = () => {
                 <Switch>
                     <Route exact path="/login" component={LoginScreen}></Route>
                     {/* Enviamos otro sistema de rutas usando un function component que tiene un switch 
-                        sin un Router ya que ya lo tenemos aqui  */}
-                    <Route  path="/" component={DashboardRoutes}></Route>
+                        sin un Router ya que ya lo tenemos aqui , cuando ponemos otro router tenemos
+                        que hacerlo son el exact */}
+                    <Route path="/" component={DashboardRoutes}></Route>
                 </Switch>
 
             </div>

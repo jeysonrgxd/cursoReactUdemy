@@ -1,5 +1,6 @@
 import React from 'react'
 import { getHeroesByPublisher } from '../../selectors/getHeroesByPublisher'
+import { HeroCard } from './HeroCard'
 
 // este sera un componente el cual sera usado en las pages enviado el párametro correspondiente
 export const HeroList = ({publisher}) => {
@@ -7,12 +8,17 @@ export const HeroList = ({publisher}) => {
     const heroes = getHeroesByPublisher(publisher)
 
     return (
-        <ul> 
+        <div className="card-columns"> 
            {
                heroes.map(heroe => (
-                   <li key={heroe.id}> {heroe.superhero} </li>
+                   <HeroCard 
+                    key={heroe.id}
+                    {...heroe}
+                    > 
+
+                   </HeroCard>
                ))
            } 
-        </ul>
+        </div>
     )
 }

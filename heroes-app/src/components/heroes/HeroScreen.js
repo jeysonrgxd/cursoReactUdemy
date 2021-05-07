@@ -1,26 +1,76 @@
 import React from 'react'
-import { useParams } from 'react-router'
+import { Redirect, useParams } from 'react-router'
 import { getHeroById } from '../../selectors/getHeroById'
 
 // destructuramos el argumento prop para obtener el heroe, se puede ver mejor en la consola 
 //del navegador mirando los componentes
-export const HeroScreen = ({match}) => {
+export const HeroScreen = ({match,history}) => {
 
     //usamos el hook de react router para obtener parametros de url
     const {heroId} = useParams()
+
+    // si no encontramos a ningun heroe nos redirijira al principal esto es mas que todo
+    //si alguien pone una url mala
+    if(!heroId){
+        return <Redirect to="/"></Redirect>
+    }
 
     // console.log(match.params)
     console.log(heroId)
     const heroe = getHeroById(heroId)
     console.log(heroe)
 
-    return (
-        <div>
-            <h1>HeroScreen</h1>
+    const {
+        id,
+        superhero,
+        publisher,
+        alter_ego,
+        first_appearance,
+        characters,
+    } = heroe
 
-            <pre>
-                {JSON.stringify(heroe,null,3)}
-            </pre>
+    const handleReturn = ()=>{
+
+        // si abrimos por primera vez una ruta de un superheroe y le damos atras nos validara el length
+        if(history.length <=2 ){
+
+            history.push("/")
+
+        }else{
+            // retrocedeme atras
+            history.goBack()
+        }
+
+    }
+
+    return (
+        <div className="row mt-5">
+            <div className="col-4">
+                <img
+                    src={`/assets/heroes/${heroId}.jpg`}
+                    alt={superhero}
+                    className="img-thumbnail"
+                />
+            </div>
+
+            <div className="col-8">
+                <h3>{superhero}</h3>
+                <ul className="list-group list-group-flush">
+                    <li className="list-group-item"> <b> Alter ego: </b>{ alter_ego }</li>
+                    <li className="list-group-item"> <b> Publisher: </b>{ publisher }</li>
+                    <li className="list-group-item"> <b> First appearance: </b>{ first_appearance }</li>
+                </ul>
+                <h5>Characters </h5>
+                <p> {characters} </p>
+
+                <button 
+                    className="btn btn-outline-info"
+                    onClick={handleReturn}
+                    >
+                    return
+                </button>
+            </div>
+
         </div>
     )
 }

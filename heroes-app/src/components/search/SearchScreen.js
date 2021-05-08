@@ -1,9 +1,27 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import queryString from 'query-string'
+
 import { heroes } from '../../data/heroes'
 import { HeroCard } from '../heroes/HeroCard';
 import { useForm } from '../../hooks/useForm'
+import { useLocation } from 'react-router';
 
-export const SearchScreen = () => {
+export const SearchScreen = ({history,location}) => {
+
+    // este hook puede obtener mas rapido el location que viene en los props
+    // const locationHook = useLocation()
+
+    // const params = new URLSearchParams(locationHook.search)
+    // const params = new URLSearchParams(location.search)
+
+    // useMemo(() => {
+    //     console.log(params.get("q"))
+    // }, [params.get("q")])
+
+    // usamos la libreria queryString para obtener los parametros query
+    const { q } = queryString.parse(location.search)
+
+    console.log(q)
 
     const heroesFiltered = heroes;
 
@@ -15,7 +33,7 @@ export const SearchScreen = () => {
 
     const handleSearch = (e) =>{
         e.preventDefault()
-        console.log(e)
+        history.push(`?q=${name}`)
     }
 
     return (
@@ -34,7 +52,6 @@ export const SearchScreen = () => {
                             type="text"
                             placeholder="Find your hero"
                             name="name"
-                            autocomplete="off"
                             className="form-control"
                             onChange={handleInputChange}
                             value={name}

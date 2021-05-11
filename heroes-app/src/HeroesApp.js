@@ -6,7 +6,7 @@ import { AppRouter } from './routers/AppRouter'
 // creamos una inicializacion para pasarselo anuestro inical state
 //(y asi obtenemos nuestro estado inicial de nuestra aplicacion)
 const init = () => {
-    return JSON.parse(localStorage.getItem("user")) || { logged: false }
+    return JSON.parse(localStorage.getItem("user")) || { logged: false } 
 }
 
 export const HeroesApp = () => {

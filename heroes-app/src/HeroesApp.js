@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { AuthContext } from './auth/AuthContext'
 import { authReducer } from './auth/authReducer'
 import { AppRouter } from './routers/AppRouter'
@@ -14,6 +14,12 @@ export const HeroesApp = () => {
     //el manejo de aciones y devolvimiento de estado
     // esto es para saber cuando nos logeamos y cuando no
     const [user, dispatch] = useReducer(authReducer, {}, init)
+
+    // usamos el useEffect para poder grabar el usuario cuando la variable user el cual 
+    // nos devuelve el reducer cambia, asi para poder grabar en el local storage
+    useEffect(() => {
+        localStorage.setItem("user",JSON.stringify(user))
+    }, [user])
 
     return (
         // envolvemos nuestra app con el context para pasarle informacion a todo nuestro componentes

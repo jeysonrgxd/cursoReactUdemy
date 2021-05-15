@@ -19,9 +19,12 @@ export const LoginScreen = ({history}) => {
             }
         })
 
+        // obtenemos la ultima ruta que fue visitado con localstorage
+        const lastPath = localStorage.getItem("lastPath") || "/"
+
         // remplazamos la ruta "/login" con la principal "/" esto es para no regresar al 
         // login una vez entrado al dashboard, esto se ve util cuando se da atras
-        history.replace("/") 
+        history.replace(lastPath) 
 
     }
 

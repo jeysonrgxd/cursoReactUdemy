@@ -2,9 +2,14 @@ import React, { useMemo } from 'react'
 import { Redirect, useParams } from 'react-router'
 import { getHeroById } from '../../selectors/getHeroById'
 
+// import batman from '../../assets/heroes/dc-batman.jpg'
+const heroImages = require.context('../../assets/heroes',true)
+
 // destructuramos el argumento prop para obtener el heroe, se puede ver mejor en la consola 
 //del navegador mirando los componentes
 export const HeroScreen = ({match,history}) => {
+
+    console.log(heroImages("./dc-batman.jpg").default)
 
     //usamos el hook de react router para obtener parametros de url
     const {heroId} = useParams()
@@ -16,7 +21,7 @@ export const HeroScreen = ({match,history}) => {
     // si el id no cambia no tengo que volver a generar esta informacion, 
     //extraemos el heroe y lo memorizamos
     const heroe = useMemo(() => getHeroById(heroId), [heroId])
-    console.log(heroe)
+
 
     // si no encontramos a ningun heroe nos redirijira al principal esto es mas que todo
     //si alguien pone una url mala
@@ -52,8 +57,11 @@ export const HeroScreen = ({match,history}) => {
     return (
         <div className="row mt-5">
             <div className="col-4">
+
                 <img
-                    src={`/assets/heroes/${heroId}.jpg`}
+                    // src={`/assets/heroes/${heroId}.jpg`}
+                    // src={batman} // import
+                    src={heroImages(`./${heroId}.jpg`).default}
                     alt={superhero}
                     className="img-thumbnail animate__animated animate__zoomIn"
                 />

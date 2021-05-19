@@ -1,0 +1,2 @@
+// exportamos la funcion la cual nos trae las imagenes con un codigo, devemos poner el path correcto ala altura se asstes que esta dentro del src
+export const heroImages = require.context("../assets/heroes",true)

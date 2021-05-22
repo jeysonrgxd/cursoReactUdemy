@@ -1,3 +1,6 @@
-html,body{
-   background: red;
-}
+// importaremos los partials
+@import './base/settings';
+@import './base/base';
+
+// components
+@import './components/auth';

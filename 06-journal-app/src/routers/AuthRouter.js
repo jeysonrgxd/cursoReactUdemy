@@ -5,15 +5,17 @@ import { RegisterScreen } from '../components/auth/RegisterScreen'
 
 export const AuthRouter = () => {
    return (
-      <>
-         <Switch>
-            
-            <Route exact path="/auth/login" component={LoginScreen}></Route>
-            <Route exact path="/auth/register" component={RegisterScreen}></Route>
+      <div className="auth__main">
+         <div class="auth__box-contain">
+            <Switch>
+               
+               <Route exact path="/auth/login" component={LoginScreen}></Route>
+               <Route exact path="/auth/register" component={RegisterScreen}></Route>
 
-            {/* si no son la demas rutas entonses */}
-            <Redirect to="/auth/login"></Redirect>
-         </Switch>
-      </>
+               {/* si no son la demas rutas entonses */}
+               <Redirect to="/auth/login"></Redirect>
+            </Switch>
+         </div>
+      </div>
    )
 }

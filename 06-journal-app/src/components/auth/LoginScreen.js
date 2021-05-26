@@ -6,7 +6,7 @@ export const LoginScreen = () => {
       <>
          <h3 className="auth__title">Login</h3>
          <form>
-            <input 
+            <input
                type="text"
                placeholder="Email"
                name="email"
@@ -14,7 +14,7 @@ export const LoginScreen = () => {
                autoComplete="off"
             />
 
-            <input 
+            <input
                type="password"
                placeholder="Password"
                name="password"
@@ -31,9 +31,9 @@ export const LoginScreen = () => {
             <div class="auth__social-networks">
                <p>Login with social networks</p>
 
-               <div 
+               <div
                   className="google-btn"
-                  >
+               >
                   <div className="google-icon-wrapper">
                      <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google button" />
                   </div>
@@ -43,7 +43,9 @@ export const LoginScreen = () => {
                </div>
             </div>
 
-            <Link to="/auth/register">
+            <Link
+               className="link"
+               to="/auth/register">
                Create new account
             </Link>
 

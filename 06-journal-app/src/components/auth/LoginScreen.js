@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
 import { useDispatch } from 'react-redux'
-import { login } from '../../actions/auth'
+import { login, startLoginEmailPassword } from '../../actions/auth'
 
 export const LoginScreen = () => {
 
@@ -18,7 +18,10 @@ export const LoginScreen = () => {
    let handleLogin = (e) => {
       e.preventDefault()
       // usamos este hook para disparar acciones dispatch y poner los valores en todo el estado y poder usarlo
-      dispatch(login(22131, 'jeyson'))
+      // dispatch(login(22131, 'jeyson'))
+
+      // llamamos ala funcion para acciones asyncronas
+      dispatch(startLoginEmailPassword(email, password))
 
       console.log(email, password)
    }
@@ -53,7 +56,7 @@ export const LoginScreen = () => {
                Login
             </button>
 
-            <div class="auth__social-networks">
+            <div className="auth__social-networks">
                <p>Login with social networks</p>
 
                <div

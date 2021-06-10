@@ -1,3 +1,4 @@
+import { firebase, googleAuthProvider } from '../firebase/firebase-config'
 import { type } from '../types/types';
 
 // cramos nuestro accion asyncrona
@@ -12,6 +13,17 @@ export const startLoginEmailPassword = (email, password) => {
 
             dispatch(login(123, 'jeyson'))
         }, 3500);
+    }
+}
+
+// creamos nuestra conexion accion de login de google
+export const startGoogleLogin = () => {
+    return (dispatch) => {
+        // esto es una promesa el cual despues de autenticarnos con google nos devuelve un obejto con un monton de propiedades
+        firebase.auth().signInWithPopup(googleAuthProvider)
+            .then(({ user }) => {
+                dispatch(login(user.uid, user.displayName))
+            })
     }
 }
 

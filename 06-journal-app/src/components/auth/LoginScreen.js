@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
 import { useDispatch } from 'react-redux'
-import { login, startLoginEmailPassword } from '../../actions/auth'
+import { login, startGoogleLogin, startLoginEmailPassword } from '../../actions/auth'
 
 export const LoginScreen = () => {
 
@@ -24,6 +24,11 @@ export const LoginScreen = () => {
       dispatch(startLoginEmailPassword(email, password))
 
       console.log(email, password)
+   }
+
+   // creamos un handle para activar el boton de google
+   let handleLoginGoogle = () => {
+      dispatch(startGoogleLogin())
    }
 
    return (
@@ -61,6 +66,7 @@ export const LoginScreen = () => {
 
                <div
                   className="google-btn"
+                  onClick={handleLoginGoogle}
                >
                   <div className="google-icon-wrapper">
                      <img className="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="google button" />

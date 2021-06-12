@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
+
+// importamos la libreria de validacion que instalamos
+import validator from 'validator'
 
 export const RegisterScreen = () => {
 
@@ -16,17 +19,45 @@ export const RegisterScreen = () => {
    const handleRegister = (ev) => {
       ev.preventDefault()
 
-      console.log(name, email, password, againpassword)
+      if (isFormValid()) {
+         console.log("Formulario correcto")
+      }
+
    }
 
    const isFormValid = () => {
       // TODO:
+      if (name.trim().length === 0) {
+
+         console.log("El nombre es requerido")
+         return false;
+
+      } else if (!validator.isEmail(email)) {
+
+         console.log("El email no es valido")
+         return false;
+
+      } else if (password !== againpassword || password.length < 5) {
+
+         console.log("La contraseñas son distintas")
+         return false
+
+      }
+      else {
+         return true
+      }
+
    }
 
    return (
       <>
          <h3 className="auth__title">Login</h3>
          <form onSubmit={handleRegister}>
+
+            <div className="auth__alert-error">
+               Error
+            </div>
+
             <input
                type="text"
                placeholder="Name"
@@ -66,7 +97,7 @@ export const RegisterScreen = () => {
 
             <button
                type="submit"
-               className="btn btn-primary btn-block "
+               className="btn btn-primary btn-block"
             >
                Register
             </button>

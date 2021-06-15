@@ -1,11 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
 
 // importamos la libreria de validacion que instalamos
 import validator from 'validator'
+import { removeError, setError } from '../../actions/ui'
+import { useDispatch, useSelector } from 'react-redux'
 
 export const RegisterScreen = () => {
+
+   const dispatch = useDispatch()
+
+   // obtnemos el stado que nos proporciona redux, nos devuelve un callback con el valor del estado
+   // lo destructuramos ya que ya sabemos que devuelve con un console.log
+   const { msgError } = useSelector(dataState => dataState.ui)
 
    const [valores, handleInputChange] = useForm({
       name: '',
@@ -28,22 +36,27 @@ export const RegisterScreen = () => {
    const isFormValid = () => {
       // TODO:
       if (name.trim().length === 0) {
-
+         dispatch(setError("El nombre es requerido"))
          console.log("El nombre es requerido")
          return false;
 
       } else if (!validator.isEmail(email)) {
 
+         dispatch(setError("El email no es valido"))
          console.log("El email no es valido")
          return false;
 
       } else if (password !== againpassword || password.length < 5) {
 
+         dispatch(setError("La contraseñas son distintas"))
          console.log("La contraseñas son distintas")
          return false
 
       }
       else {
+         // removemos el error
+         dispatch(removeError())
+
          return true
       }
 
@@ -54,9 +67,14 @@ export const RegisterScreen = () => {
          <h3 className="auth__title">Login</h3>
          <form onSubmit={handleRegister}>
 
-            <div className="auth__alert-error">
-               Error
-            </div>
+            {
+               msgError &&
+               (
+                  <div className="auth__alert-error">
+                     {msgError}
+                  </div>
+               )
+            }
 
             <input
                type="text"

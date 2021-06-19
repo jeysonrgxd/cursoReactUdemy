@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
 import { useDispatch } from 'react-redux'
 import { login, startGoogleLogin, startLoginEmailPassword } from '../../actions/auth'
+import { useSelector } from 'react-redux'
 
 export const LoginScreen = () => {
 
    const dispatch = useDispatch()
+
+   const { loading } = useSelector(dataState => dataState.ui)
 
    const [values, handleInputChange] = useForm({
       email: "jeysonrgxd@gmail.com",
@@ -23,7 +26,6 @@ export const LoginScreen = () => {
       // llamamos ala funcion para acciones asyncronas
       dispatch(startLoginEmailPassword(email, password))
 
-      console.log(email, password)
    }
 
    // creamos un handle para activar el boton de google
@@ -57,6 +59,9 @@ export const LoginScreen = () => {
             <button
                type="submit"
                className="btn btn-primary btn-block "
+               disabled={loading}
+               style={{ filter: loading && 'grayscale(.7)' }}
+
             >
                Login
             </button>

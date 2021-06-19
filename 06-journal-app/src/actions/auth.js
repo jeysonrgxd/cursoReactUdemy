@@ -1,5 +1,6 @@
 import { firebase, googleAuthProvider } from '../firebase/firebase-config'
 import { type } from '../types/types';
+import { startLoading, finishLoading } from './ui'
 
 // cramos nuestro accion asyncrona
 export const startLoginEmailPassword = (email, password) => {
@@ -8,17 +9,58 @@ export const startLoginEmailPassword = (email, password) => {
 
         // aca puede ir fectch y todo tipo de request o peticion, tambien dispatch de otras acciones
 
-        setTimeout(() => {
-            // una vez resuelto la funcion o peticion asyncrona usamos nuestro dispatch pasandole en este caso nuestras credenciales que no autenticampos
+        dispatch(startLoading())
 
-            dispatch(login(123, 'jeyson'))
-        }, 3500);
+        // setTimeout(() => {
+        // una vez resuelto la funcion o peticion asyncrona usamos nuestro dispatch pasandole en este caso nuestras credenciales que no autenticampos
+
+        //     dispatch(login(123, 'jeyson'))
+        // }, 3500);
+
+        // llamamos la autenticacion de firebase
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(({ user }) => {
+
+                dispatch(finishLoading())
+
+                dispatch(
+                    login(user.uid, user.displayName)
+                )
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
+
+// accion para registrar datos en firebase con las funciones que nos da la biblioteca
+export const startRegisterWithEmailPasswordName = (email, password, name) => {
+    // retornamos un callback para tener el dispatch gracias al thunk
+    return (dispatch) => {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(async ({ user }) => {
+
+                // utilizamos una funcion del objeto user que nos regresa despues de crear el usuario en firebase, para poder ponerle un nombre o imagen pero hay que pasarle siguiendo el mismo key del objeto que viene en user
+                await user.updateProfile({ displayName: name })
+
+                // usamos este dispatch de login para ni bien se registra que se logee con los datos que nos da
+                dispatch(
+                    login(user.uid, user.displayName)
+                )
+
+                //al imprimir el user es que usamos el await para actualizar pero en si es el mismo objeto 
+                // console.log(user)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 }
 
 // creamos nuestra conexion accion de login de google
 export const startGoogleLogin = () => {
     return (dispatch) => {
+
         // esto es una promesa el cual despues de autenticarnos con google nos devuelve un obejto con un monton de propiedades
         firebase.auth().signInWithPopup(googleAuthProvider)
             .then(({ user }) => {

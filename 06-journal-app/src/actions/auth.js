@@ -78,3 +78,16 @@ export const login = (uid, displayName) => ({
     }
 }
 )
+
+// creamos la accion asyncrona ya que usaremos firebase para el logout y la otra accion es el logout con esto borramos el uid y displayname del store
+export const startLogout = () => {
+    return async (dispatch) => { //gracias a thunk usamos este callback
+        await firebase.auth().signOut()
+
+        dispatch(logout())
+    }
+}
+
+export const logout = () => ({
+    type: type.logout
+})

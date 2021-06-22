@@ -18,7 +18,7 @@ export const authReducer = (state = {}, action) => {
                 name: action.payload.displayName,
             }
 
-        case type.logout:
+        case type.logout: //quita todo para que no estemos logeados
             return {}
 
         default:

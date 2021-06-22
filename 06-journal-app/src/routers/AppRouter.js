@@ -12,10 +12,17 @@ import { AuthRouter } from './AuthRouter';
 import { firebase } from '../firebase/firebase-config'
 import { login } from '../actions/auth';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 
 export const AppRouter = () => {
 
    const dispatch = useDispatch()
+
+   // creamos los estados para el loading (cuando termine de loagear a firebase mediante el useEffect), el otro es si estamos logeados para proteger nuestra rutas y no se muestre asta logearnos
+   const [checking, setChecking] = useState(true)
+
+   const [isLoggedIn, setIsLoggedIn] = useState(false)
+
 
    // cuando el estado cambia usamos useEffect para invoca la funcion de firebase para poder persistir el login si es que lo iso y lo volvio a recargar
    useEffect(() => {
@@ -23,19 +30,39 @@ export const AppRouter = () => {
 
       firebase.auth().onAuthStateChanged((user) => {
 
-         if (user?.uid) {
+         if (user?.uid) { //esta validacion es para no hacer doble id
             dispatch(login(user.uid, user.displayName))
-         }
-      })
-   }, [dispatch])
 
+            setIsLoggedIn(true) //estamos logeados
+         } else {
+            setIsLoggedIn(false)//no estamos logeados
+         }
+         // termino de cargar la autenticacion
+         setChecking(false)
+      })
+   }, [dispatch, setChecking, setIsLoggedIn])
+
+   const componentJounal = (props) => {
+      console.log(props)
+      return isLoggedIn ? (<JournalScreen></JournalScreen>) : (<Redirect to="/auth/login"></Redirect>)
+   }
+
+   // creamos un return condicional para poner el loader
+   if (checking) {
+      return (
+         <h2>Loading....</h2>
+      )
+   }
 
    return (
       <Router>
          <div>
             <Switch>
-               <Route path="/auth" component={AuthRouter}></Route>
-               <Route exact path="/" component={JournalScreen}></Route>
+               <Route path="/auth" component={() => (<AuthRouter isLoggedIn={isLoggedIn}></AuthRouter>)}></Route>
+               <Route exact path="/"
+                  component={componentJounal}>
+
+               </Route>
 
                {/* si es ninguna de las rutas declaradas entonses redirigimos al login */}
 

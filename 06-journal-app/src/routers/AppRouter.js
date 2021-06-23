@@ -58,10 +58,12 @@ export const AppRouter = () => {
       <Router>
          <div>
             <Switch>
-               <Route path="/auth" component={() => (<AuthRouter isLoggedIn={isLoggedIn}></AuthRouter>)}></Route>
+               {/* <Route path="/auth" component={() => (<AuthRouter isLoggedIn={isLoggedIn}></AuthRouter>)}></Route> */}
+               <Route path="/auth">
+                  <AuthRouter isLoggedIn={isLoggedIn}></AuthRouter>
+               </Route>
                <Route exact path="/"
                   component={componentJounal}>
-
                </Route>
 
                {/* si es ninguna de las rutas declaradas entonses redirigimos al login */}

@@ -2,6 +2,9 @@ import { firebase, googleAuthProvider } from '../firebase/firebase-config'
 import { type } from '../types/types';
 import { startLoading, finishLoading } from './ui'
 
+// importamos sw
+import Swal from 'sweetalert2'
+
 // cramos nuestro accion asyncrona
 export const startLoginEmailPassword = (email, password) => {
     // reduc-thunk nos provee el dispatch en los parametros de callback que se ejecutara gracias ala configuracion que isimos en nuestro store de redux-thunbk
@@ -29,6 +32,7 @@ export const startLoginEmailPassword = (email, password) => {
             })
             .catch(error => {
                 console.log(error)
+                Swal.fire('Error', error.message, 'error')
             })
     }
 }
@@ -53,6 +57,7 @@ export const startRegisterWithEmailPasswordName = (email, password, name) => {
             })
             .catch(error => {
                 console.log(error)
+                Swal.fire('Error', error.message, 'error')
             })
     }
 }

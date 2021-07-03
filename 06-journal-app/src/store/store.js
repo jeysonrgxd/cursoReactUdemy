@@ -3,6 +3,7 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
 import { authReducer } from '../reducers/authReducer'
 import { uiReducer } from '../reducers/uiReducer';
+import { notesReducer } from '../reducers/notesReducer';
 
 // importamos esta libreria para hacer acciones asyncronas y desplegar el dispatch
 import thunk from 'redux-thunk'
@@ -14,7 +15,8 @@ const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOO
 // aveses es tambien llamado como rootReducer
 const reducers = combineReducers({
     auth: authReducer,
-    ui: uiReducer
+    ui: uiReducer,
+    notes: notesReducer
 })
 
 // forma sin acciones acyncronas, sin usar composeEnhancers

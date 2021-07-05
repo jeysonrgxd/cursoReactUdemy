@@ -1,3 +1,4 @@
+import { type } from '../types/types'
 import { db } from '../firebase/firebase-config'
 
 export const startNewNote = () => {
@@ -15,9 +16,28 @@ export const startNewNote = () => {
          date: new Date().getTime()
       }
 
+      // aca gurdamos los datos en firebase dandole la ruta que creamos collection documento
       const doc = await db.collection(`${uid}/journal/notes`).add(newNote)
 
-      console.log(doc)
+      // sin una funcion returnadora
+      // dispatch({
+      //    type: type.notesActive,
+      //    payload: {
+      //       id: doc.id,
+      //       ...newNote
+      //    }
+      // })
+
+      // usando funcion retornadora
+      dispatch(activeNote(doc.id, newNote))
 
    }
 }
+
+export const activeNote = (id, note) => ({ //regresamos un objeto de manera defrente sin return solo usando los parentesis
+   type: type.notesActive, //que tipo de accion
+   payload: {
+      id,
+      ...note
+   }
+})

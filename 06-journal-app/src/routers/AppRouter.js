@@ -13,6 +13,8 @@ import { firebase } from '../firebase/firebase-config'
 import { login } from '../actions/auth';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { loadNotes } from '../helpers/loadNotes';
+import { setNotes } from '../actions/notes';
 
 export const AppRouter = () => {
 
@@ -28,12 +30,18 @@ export const AppRouter = () => {
    useEffect(() => {
       // cuando se cambia el estado de la utenticacion se dispara esta funcion
 
-      firebase.auth().onAuthStateChanged((user) => {
+      firebase.auth().onAuthStateChanged(async (user) => {
 
          if (user?.uid) { //esta validacion es para no hacer doble id
             dispatch(login(user.uid, user.displayName))
 
             setIsLoggedIn(true) //estamos logeados
+
+            const notas = await loadNotes(user.uid) // cargamos las notas pasandole el uid
+
+            dispatch(setNotes(notas))
+
+
          } else {
             setIsLoggedIn(false)//no estamos logeados
          }

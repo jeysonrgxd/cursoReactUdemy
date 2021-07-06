@@ -26,6 +26,12 @@ export const notesReducer = (state = initialState, action) => {
 
    switch (action.type) {
 
+      case type.notesLoad:
+         return {
+            ...state,
+            notes: [...action.payload]
+         }
+
       case type.notesActive:
          return {
             ...state, //esto espara copiar el contenido de notes

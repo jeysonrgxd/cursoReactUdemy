@@ -41,3 +41,8 @@ export const activeNote = (id, note) => ({ //regresamos un objeto de manera defr
       ...note
    }
 })
+
+export const setNotes = (notes) => ({
+   type: type.notesLoad,
+   payload: notes
+})

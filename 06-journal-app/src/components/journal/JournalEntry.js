@@ -1,31 +1,42 @@
 import React from 'react'
+import moment from 'moment'
 
-export const JournalEntry = () => {
+export const JournalEntry = ({ body, date, id, title, url }) => {
+
+   let tiempo = moment(date)
+   tiempo.locale("es")
+
    return (
       <div className="journal__entry">
-         <div
-            className="journal__entry-picture"
-            // el style en react tiene que ser un objeto donde especifiquemos toda el stylo que tendre este elemento
-            style={{
-               backgroundSize: 'cover',
-               backgroundImage: 'url(https://cdn.atomix.vg/wp-content/uploads/2021/05/New-Project-33.jpg)',
-               backgroundPosition: 'center'
-            }}
-         >
-         </div>
+
+         {
+            url &&
+            (<div
+               className="journal__entry-picture"
+               // el style en react tiene que ser un objeto donde especifiquemos toda el stylo que tendre este elemento
+               style={{
+                  backgroundSize: 'cover',
+                  backgroundImage: url ? url : 'url(https://cdn.atomix.vg/wp-content/uploads/2021/05/New-Project-33.jpg)',
+                  backgroundPosition: 'center'
+               }}
+            >
+            </div>)
+
+         }
+
 
          <div className="journal__entry-body">
             <p className="journal__entry-title">
-               Un nuevo día
+               {title}
             </p>
             <p className="journal__entry-content">
-               hola esto es un de como estas tu del hola de ayer
+               {body}
             </p>
          </div>
 
          <div className="jounal__entry-date-box">
-            <span>Monday</span>
-            <h4>28</h4>
+            <span>{tiempo.locale("es").format("dddd")}</span>
+            <h4>{tiempo.format("Do")}</h4>
          </div>
 
       </div>

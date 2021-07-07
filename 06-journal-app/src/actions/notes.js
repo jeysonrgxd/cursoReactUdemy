@@ -1,5 +1,6 @@
 import { type } from '../types/types'
 import { db } from '../firebase/firebase-config'
+import { loadNotes } from '../helpers/loadNotes'
 
 export const startNewNote = () => {
    // este segundo argumento es para obtener el estado de redux
@@ -41,6 +42,15 @@ export const activeNote = (id, note) => ({ //regresamos un objeto de manera defr
       ...note
    }
 })
+
+export const startLoadingNotes = (uid) => {
+
+   return async (dispatch) => {
+
+      const notas = await loadNotes(uid)
+      dispatch(setNotes(notas))
+   }
+}
 
 export const setNotes = (notes) => ({
    type: type.notesLoad,

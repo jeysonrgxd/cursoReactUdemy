@@ -4,7 +4,7 @@ import { JournalEntry } from './JournalEntry'
 
 export const JournalEntries = () => {
 
-    const entries = [1, 2, 3, 4, 5]
+    // const entries = [1, 2, 3, 4, 5]
 
     // obtenemos las notes del estado que nos da reducer con el hook useSelector
     const { notes } = useSelector(state => state.notes)

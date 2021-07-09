@@ -1,13 +1,21 @@
 import React from 'react'
 import moment from 'moment'
+import { useDispatch } from 'react-redux'
+import { activeNote } from '../../actions/notes'
 
 export const JournalEntry = ({ body, date, id, title, url }) => {
 
    let tiempo = moment(date)
    tiempo.locale("es")
 
+   const dispatch = useDispatch()
+
+   const handleEntryClick = () => {
+      dispatch(activeNote(id, { body, date, title, url }))
+   }
+
    return (
-      <div className="journal__entry">
+      <div className="journal__entry" onClick={handleEntryClick}>
 
          {
             url &&

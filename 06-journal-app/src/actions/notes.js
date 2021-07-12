@@ -56,3 +56,23 @@ export const setNotes = (notes) => ({
    type: type.notesLoad,
    payload: notes
 })
+
+export const startSaveNote = (note) => {
+   // como esto es una trea acyncrona usaremos thunk
+   return async (dispatch, getState) => { //tambien utilizamos el getState por que nesesitaremos el id del usuario
+
+      const { uid } = getState().auth;
+
+      // obtenemos un copia de la nota la cual guardaremos enviando a firebase pero tenemos que borrar el id ya que no es nesesario y es por eso que copiamos para despues borrarlo y sin tocar el parametro note
+      const noteForFirebase = { ...note }
+      delete noteForFirebase.id
+
+      // borramos el url si es que es undefined o no tiene valor ya que firebase no acepta valores undefined
+      if (!noteForFirebase.url) {
+         delete noteForFirebase.url
+      }
+
+      await db.doc(`${uid}/journal/notes/${note.id}`).update(noteForFirebase)
+
+   }
+}

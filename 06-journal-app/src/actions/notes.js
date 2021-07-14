@@ -1,6 +1,7 @@
 import { type } from '../types/types'
 import { db } from '../firebase/firebase-config'
 import { loadNotes } from '../helpers/loadNotes'
+import Swal from 'sweetalert2'
 
 export const startNewNote = () => {
    // este segundo argumento es para obtener el estado de redux
@@ -63,6 +64,10 @@ export const startSaveNote = (note) => {
 
       const { uid } = getState().auth;
 
+      // obtenemos las notas del estado de redux, despues obtnemos el id de la nota active del parametro que recivimos
+      const { notes } = getState().notes;
+      const { id: idActiveNote } = note
+
       // obtenemos un copia de la nota la cual guardaremos enviando a firebase pero tenemos que borrar el id ya que no es nesesario y es por eso que copiamos para despues borrarlo y sin tocar el parametro note
       const noteForFirebase = { ...note }
       delete noteForFirebase.id
@@ -74,5 +79,24 @@ export const startSaveNote = (note) => {
 
       await db.doc(`${uid}/journal/notes/${note.id}`).update(noteForFirebase)
 
+      dispatch(refreshNote(idActiveNote, note, notes)) //hacemos dispacth para actualizar el array de estradas que tenemos en local (estado redux)
+
+      Swal.fire("Saved", note.title, 'success') //alerta de mensaje y todo bien
+
+
+
+   }
+}
+
+// funcion para actualizar el stado redux array de entradas
+export const refreshNote = (id, noteActive, notes) => {
+
+   const newNotesArray = notes.map(
+      noteItem => (noteItem.id === id) ? noteItem = { ...noteActive } : noteItem
+   )
+
+   return {
+      type: type.notesUpdated,
+      payload: newNotesArray
    }
 }

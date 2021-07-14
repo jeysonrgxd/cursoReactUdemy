@@ -10,6 +10,7 @@ export const NotesAppBar = () => {
 
     const handleSave = () => {
 
+
         dispatch(startSaveNote(active))
     }
 

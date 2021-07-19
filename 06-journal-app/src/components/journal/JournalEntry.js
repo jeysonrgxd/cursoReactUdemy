@@ -23,9 +23,10 @@ export const JournalEntry = ({ body, date, id, title, url }) => {
                className="journal__entry-picture"
                // el style en react tiene que ser un objeto donde especifiquemos toda el stylo que tendre este elemento
                style={{
-                  backgroundSize: 'cover',
-                  backgroundImage: url ? url : 'url(https://cdn.atomix.vg/wp-content/uploads/2021/05/New-Project-33.jpg)',
-                  backgroundPosition: 'center'
+                  backgroundSize: 'contain',
+                  backgroundImage: url ? `url(${url})` : 'url(https://cdn.atomix.vg/wp-content/uploads/2021/05/New-Project-33.jpg)',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat'
                }}
             >
             </div>)

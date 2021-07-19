@@ -3,6 +3,10 @@ import { db } from '../firebase/firebase-config'
 import { loadNotes } from '../helpers/loadNotes'
 import Swal from 'sweetalert2'
 
+import { fileUpload } from '../helpers/fileUpload'
+
+// react-journal
+
 export const startNewNote = () => {
    // este segundo argumento es para obtener el estado de redux
    // return (dispatch, getState) => {
@@ -83,8 +87,6 @@ export const startSaveNote = (note) => {
 
       Swal.fire("Saved", note.title, 'success') //alerta de mensaje y todo bien
 
-
-
    }
 }
 
@@ -98,5 +100,35 @@ export const refreshNote = (id, noteActive, notes) => {
    return {
       type: type.notesUpdated,
       payload: newNotesArray
+   }
+}
+
+// usamos thunk por se ara peticiones asyncronas tanto como para guardar la imagen en cloug bynary como guardar el path url en firebase
+export const startUploading = (file) => {
+
+   return async (dispatch, getState) => {
+
+      const { active: activeNote } = getState().notes
+
+      Swal.fire({
+         title: "Cargando..",
+         text: "Por favor esperar",
+         allowOutsideClick: false,
+         didOpen: () => {
+            Swal.showLoading()
+         }
+
+
+      })
+
+      const fileCloudData = await fileUpload(file)
+
+      activeNote.url = fileCloudData.url
+
+      // una vez subido la imagen obtenemos la url generada y asemos el dispatch para guardar en firebase y tambien actualizar el estado
+      dispatch(startSaveNote(activeNote))
+
+      Swal.close()
+
    }
 }

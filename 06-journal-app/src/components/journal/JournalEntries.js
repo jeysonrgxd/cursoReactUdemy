@@ -10,6 +10,8 @@ export const JournalEntries = () => {
     const { notes } = useSelector(state => state.notes)
     // notes es un array de objetos
 
+    console.log(notes)
+
     return (
         <div className="journal__entries">
             {

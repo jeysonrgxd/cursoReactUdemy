@@ -38,6 +38,7 @@ export const NotesScreem = () => {
 
     useEffect(() => {
 
+        // por cada vez que escribamos usamos el useEffect para que maneje eso y a la vez haga un dispatch, para actualizar ala par de la escritura
         dispatch(activeNote(formValues.id, { ...formValues }))
 
     }, [formValues, dispatch])
@@ -65,11 +66,11 @@ export const NotesScreem = () => {
                 </textarea>
 
                 {
-                    url && (
+                    (note.url) && (
                         <div className="notes__image">
                             <img
-                                src="https://lasimagenesdegoku.com/wp-content/uploads/2017/08/Goku_ssj_1_by_gokusuke.jpg"
-                                alt="image goku" />
+                                src={note.url}
+                                alt="image journal" />
                         </div>
                     )
                 }

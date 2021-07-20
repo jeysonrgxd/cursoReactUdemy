@@ -47,6 +47,16 @@ export const notesReducer = (state = initialState, action) => {
             notes: [...action.payload]
          }
 
+      case type.notesDelete:
+         return {
+            ...state,
+
+            // como estamos borrado la nota tambien tengo que eliminar la nota activa del estado para que se cambie la aplicacion
+            active: null,
+            notes: [...action.payload]
+
+         }
+
       default:
          return state
    }

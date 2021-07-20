@@ -35,6 +35,15 @@
    width: 100%; 
 }
 
+.btn-danger{
+    background-color: rgb(192, 4, 4);
+    transition: background-color .4s ease;
+
+    &:hover{
+        background-color: darken($color: rgb(192, 4, 4), $amount: 10);
+    }
+}
+
 // estylo boton de google
 .google-btn {
     cursor: pointer;

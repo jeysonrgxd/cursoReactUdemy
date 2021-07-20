@@ -132,3 +132,32 @@ export const startUploading = (file) => {
 
    }
 }
+
+// borrar nota
+
+export const startDeleting = (id) => {
+
+   return async (dispatch, getState) => {
+      // obtenemos el id del usuario
+      const uid = getState().auth.uid
+      const notes = getState().notes.notes
+
+      await db.doc(`/${uid}/journal/notes/${id}`).delete()
+
+      // asemos dispatch para cambiar el stado para que tambien sevea el borrado de la nota en la aplicacion
+      dispatch(noteDelete(id, notes))
+
+   }
+}
+
+export const noteDelete = (id, notes) => {
+
+   let notesFilter = Array.from(notes).filter((note) => {
+      return note.id !== id
+   })
+
+   return {
+      type: type.notesDelete,
+      payload: notesFilter
+   }
+}

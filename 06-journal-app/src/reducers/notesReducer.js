@@ -32,6 +32,13 @@ export const notesReducer = (state = initialState, action) => {
             notes: [...action.payload]
          }
 
+      case type.notesAddNew:
+         return {
+            ...state,
+            notes: [action.payload, ...state.notes]
+
+         }
+
       case type.notesActive:
          return {
             ...state, //esto espara copiar el contenido de una nota
@@ -55,6 +62,13 @@ export const notesReducer = (state = initialState, action) => {
             active: null,
             notes: [...action.payload]
 
+         }
+
+      case type.notesLogoutCleaning:
+         return {
+            ...state,
+            notes: [],
+            active: null,
          }
 
       default:

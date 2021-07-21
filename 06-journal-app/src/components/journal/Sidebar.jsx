@@ -12,7 +12,7 @@ export const Sidebar = () => {
     // del estado quiero el objeto auth y solo quiero el nombre 
     const { name } = useSelector(state => state.auth)
 
-    const handleLogin = () => {
+    const handleLogout = () => {
         dispatch(startLogout())
     }
 
@@ -29,7 +29,7 @@ export const Sidebar = () => {
                     <span>{name}</span>
                 </h3>
 
-                <button className="btn" onClick={handleLogin}>
+                <button className="btn" onClick={handleLogout}>
                     Logout
                 </button>
             </div>

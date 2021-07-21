@@ -37,8 +37,19 @@ export const startNewNote = () => {
       // usando funcion retornadora
       dispatch(activeNote(doc.id, newNote))
 
+      // usamos un dispatch mas para cambiar el estado de las notas y redibujar de nuevo la lista de notas
+      dispatch(addNewNote(doc.id, newNote))
+
    }
 }
+
+export const addNewNote = (id, note) => ({
+   type: type.notesAddNew,
+   payload: {
+      id,
+      ...note
+   }
+})
 
 export const activeNote = (id, note) => ({ //regresamos un objeto de manera defrente sin return solo usando los parentesis
    type: type.notesActive, //que tipo de accion
@@ -161,3 +172,7 @@ export const noteDelete = (id, notes) => {
       payload: notesFilter
    }
 }
+
+export const noteLogout = () => ({
+   type: type.notesLogoutCleaning
+})

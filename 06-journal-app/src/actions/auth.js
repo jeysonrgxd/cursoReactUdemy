@@ -4,6 +4,7 @@ import { startLoading, finishLoading } from './ui'
 
 // importamos sw
 import Swal from 'sweetalert2'
+import { noteLogout } from './notes';
 
 // cramos nuestro accion asyncrona
 export const startLoginEmailPassword = (email, password) => {
@@ -90,6 +91,8 @@ export const startLogout = () => {
         await firebase.auth().signOut()
 
         dispatch(logout())
+        dispatch(noteLogout())
+
     }
 }
 

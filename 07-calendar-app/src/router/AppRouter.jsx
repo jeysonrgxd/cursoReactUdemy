@@ -20,10 +20,11 @@ export const AppRouter = () => {
             <Switch>
                <Route exact path="/login" component={LoginScreen}></Route>
                <Route exact path="/" component={CalendarScreen}></Route>
+
+               {/* utilizamos un redirect al principal si no existe una url definida por nosotros */}
+               <Redirect to="/"></Redirect>
             </Switch>
 
-            {/* utilizamos un redirect al principal si no existe una url definida por nosotros */}
-            <Redirect to="/"></Redirect>
          </div>
       </Router>
    )

@@ -7,6 +7,8 @@ import 'moment/locale/es'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { messages } from '../../helpers/calendar-messages-es';
+import { CalendarEvent } from './CalendarEvent'
+import { useState } from 'react'
 
 // como el calendario que estamos utilziando moment solo cambiamos el idioma en este para que se cambie los que falta traducirte
 moment.locale("es")
@@ -20,12 +22,33 @@ const events = [
       title: "Cumpleaños del jefe",
       start: moment().add(2, 'hours').toDate(),
       end: moment().add(4, 'hours').toDate(),
-      bgcolor: '#a10303'
+      bgcolor: '#a10303',
+      user: {
+         _id: "2H3NFI3NDKSDKS",
+         name: "Jeyson"
+      }
 
    }
 ]
 
 export const CalendarScreen = () => {
+
+   // cramos un estado para manejar y actualizar la vista en donde estamos
+   const [lastview, setLastview] = useState(localStorage.getItem("lastView") || "month")
+
+   // creamos eventos que estaran pendientes a acciones que van asuceder
+   const onDoubleClick = (e) => {
+      console.log(e);
+   }
+
+   const onSelect = (e) => {
+      console.log(e);
+   }
+
+   const onViewChange = (e) => {
+      setLastview(e)
+      localStorage.setItem("lastView", e)
+   }
 
    // cambiamos los estylos del evento del calendario, este callback recive sus parametros de calendar
    const eventStyleGetter = (event, start, end, isSelected) => {
@@ -52,6 +75,13 @@ export const CalendarScreen = () => {
             endAccessor="end"
             messages={messages}
             eventPropGetter={eventStyleGetter}
+            onDoubleClickEvent={onDoubleClick}
+            onSelectEvent={onSelect}
+            onView={onViewChange}
+            view={lastview}
+            components={{
+               event: CalendarEvent
+            }}
          ></Calendar>
       </div>
    )

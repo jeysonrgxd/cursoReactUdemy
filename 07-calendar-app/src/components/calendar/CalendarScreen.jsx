@@ -9,6 +9,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { messages } from '../../helpers/calendar-messages-es';
 import { CalendarEvent } from './CalendarEvent'
 import { useState } from 'react'
+import { CalendarModal } from './CalendarModal'
 
 // como el calendario que estamos utilziando moment solo cambiamos el idioma en este para que se cambie los que falta traducirte
 moment.locale("es")
@@ -52,6 +53,7 @@ export const CalendarScreen = () => {
 
    // cambiamos los estylos del evento del calendario, este callback recive sus parametros de calendar
    const eventStyleGetter = (event, start, end, isSelected) => {
+
       const style = {
          backgroundColor: '#367CF7',
          borderRadius: '0px',
@@ -83,6 +85,8 @@ export const CalendarScreen = () => {
                event: CalendarEvent
             }}
          ></Calendar>
+
+         <CalendarModal></CalendarModal>
       </div>
    )
 }

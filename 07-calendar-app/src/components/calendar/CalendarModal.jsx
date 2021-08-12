@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Modal from 'react-modal'
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
+import Swal from 'sweetalert2';
+
 
 // este codigo que esta afuera es para que no se vuelva a calcular osea cuando se haga render para que ya no se vuelva a llamar
 const customStyles = {
@@ -19,22 +21,26 @@ const customStyles = {
 //  enlasamos nuestro modal al root de la aplicacion
 Modal.setAppElement('#root');
 
+//esto es para definir el limite de la fecha del evento como un inicio y final,  este codigo que esta afuera es para que no se vuelva a calcular osea cuando se haga render para que ya no se vuelva a llamar
 const now = moment().minutes(0).second(0).add(1, 'hours') // #:00:00
-const end = now.clone().add(1, 'hours') // #:00:00
+const nowPlus1 = now.clone().add(1, 'hours') // #:00:00
 
 export const CalendarModal = () => {
 
    const [dateStart, setDateStart] = useState(now.toDate())
-   const [dateEnd, setDateEnd] = useState(end.toDate())
+   const [dateEnd, setDateEnd] = useState(nowPlus1.toDate())
+
+   // creo este estado para manejar y agregar clases dinamicas
+   const [titleValid, setTitleValid] = useState(true)
 
    const [formValues, setFormValues] = useState({
       title: '',
       notes: '',
-      now: dateStart,
+      start: dateStart,
       end: dateEnd
    })
 
-   const { title, notes } = formValues
+   const { title, notes, start, end } = formValues
 
    const handleChange = ({ target }) => {
 
@@ -47,22 +53,24 @@ export const CalendarModal = () => {
 
 
    const closeModal = () => {
-
+      //TODO: cerrar modal
    }
 
    const handleStartDate = (e) => {
-      console.log(e);
+
       setDateStart(e)
+
       setFormValues({
          ...formValues,
-         now: e
+         start: e
       })
 
    }
 
    const handleEndDate = (e) => {
-      console.log(e);
+
       setDateEnd(e)
+
       setFormValues({
          ...formValues,
          end: e
@@ -71,7 +79,18 @@ export const CalendarModal = () => {
 
    const handleSubmit = (e) => {
       e.preventDefault()
-      console.log(formValues)
+
+      const startDate = moment(start)
+      const endDate = moment(end)
+
+      if (startDate.isSameOrAfter(endDate)) return Swal.fire("Error", "La fecha o hora de inicio es mayor que el final", 'error');
+
+      if (title.trim().length <= 2) return setTitleValid(false);
+
+      //TODO: cuando todo sale bien claro falta mas cosas
+      //TODO:  realizar grabación
+      setTitleValid(true)
+      closeModal()
    }
 
    return (
@@ -87,13 +106,13 @@ export const CalendarModal = () => {
       >
          <h1> Nuevo evento </h1>
          <hr />
-         <form className="container" onSubmit={handleSubmit}>
+         <form className="container" onSubmit={handleSubmit} noValidate>
 
             <div className="form-group">
                <label>Fecha y hora inicio</label>
                <DateTimePicker
                   onChange={handleStartDate}
-                  value={dateStart}
+                  value={start}
                   className="form-control"
                />
             </div>
@@ -102,7 +121,7 @@ export const CalendarModal = () => {
                <label>Fecha y hora fin</label>
                <DateTimePicker
                   onChange={handleEndDate}
-                  value={dateEnd}
+                  value={end}
                   className="form-control"
                   minDate={dateStart}
                />
@@ -113,7 +132,7 @@ export const CalendarModal = () => {
                <label>Titulo y notas</label>
                <input
                   type="text"
-                  className="form-control"
+                  className={`form-control ${!titleValid && 'is-invalid'}`}
                   placeholder="Título del evento"
                   name="title"
                   autoComplete="off"

@@ -4,6 +4,8 @@ import Modal from 'react-modal'
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 import Swal from 'sweetalert2';
+import { useDispatch, useSelector } from 'react-redux';
+import { uiCloseModal } from '../../actions/ui';
 
 
 // este codigo que esta afuera es para que no se vuelva a calcular osea cuando se haga render para que ya no se vuelva a llamar
@@ -27,8 +29,13 @@ const nowPlus1 = now.clone().add(1, 'hours') // #:00:00
 
 export const CalendarModal = () => {
 
+   const dispatch = useDispatch()
+
    const [dateStart, setDateStart] = useState(now.toDate())
    const [dateEnd, setDateEnd] = useState(nowPlus1.toDate())
+
+   // importamos el estado
+   const { modalOpen } = useSelector(state => state.ui)
 
    // creo este estado para manejar y agregar clases dinamicas
    const [titleValid, setTitleValid] = useState(true)
@@ -54,6 +61,8 @@ export const CalendarModal = () => {
 
    const closeModal = () => {
       //TODO: cerrar modal
+      dispatch(uiCloseModal())
+
    }
 
    const handleStartDate = (e) => {
@@ -95,8 +104,8 @@ export const CalendarModal = () => {
 
    return (
       // recordar que eso es un higher-orden-component
-      < Modal
-         isOpen={true}
+      <Modal
+         isOpen={modalOpen}
          // onAfterOpen={afterOpenModal}
          onRequestClose={closeModal}
          style={customStyles}

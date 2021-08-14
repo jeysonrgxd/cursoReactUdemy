@@ -10,6 +10,10 @@ import { messages } from '../../helpers/calendar-messages-es';
 import { CalendarEvent } from './CalendarEvent'
 import { useState } from 'react'
 import { CalendarModal } from './CalendarModal'
+import { useDispatch } from 'react-redux'
+
+// importamos las acciones para manejar l estado
+import { uiOpenModal } from '../../actions/ui'
 
 // como el calendario que estamos utilziando moment solo cambiamos el idioma en este para que se cambie los que falta traducirte
 moment.locale("es")
@@ -36,10 +40,12 @@ export const CalendarScreen = () => {
 
    // cramos un estado para manejar y actualizar la vista en donde estamos
    const [lastview, setLastview] = useState(localStorage.getItem("lastView") || "month")
+   const dispatch = useDispatch()
 
    // creamos eventos que estaran pendientes a acciones que van asuceder
    const onDoubleClick = (e) => {
       console.log(e);
+      dispatch(uiOpenModal())
    }
 
    const onSelect = (e) => {

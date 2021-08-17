@@ -14,6 +14,8 @@ import { useDispatch } from 'react-redux'
 
 // importamos las acciones para manejar l estado
 import { uiOpenModal } from '../../actions/ui'
+import { eventSetActive } from '../../actions/events'
+import { AddNewFab } from './AddNewFab'
 
 // como el calendario que estamos utilziando moment solo cambiamos el idioma en este para que se cambie los que falta traducirte
 moment.locale("es")
@@ -50,6 +52,8 @@ export const CalendarScreen = () => {
 
    const onSelect = (e) => {
       console.log(e);
+      dispatch(eventSetActive(e))
+      dispatch(uiOpenModal())
    }
 
    const onViewChange = (e) => {
@@ -92,7 +96,10 @@ export const CalendarScreen = () => {
             }}
          ></Calendar>
 
+         <AddNewFab></AddNewFab>
+
          <CalendarModal></CalendarModal>
+
       </div>
    )
 }

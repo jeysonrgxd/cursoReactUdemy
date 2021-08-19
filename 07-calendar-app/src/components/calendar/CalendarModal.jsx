@@ -6,6 +6,8 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
+import { eventAddNew, eventClearActive } from '../../actions/events';
+import { useEffect } from 'react';
 
 
 // este codigo que esta afuera es para que no se vuelva a calcular osea cuando se haga render para que ya no se vuelva a llamar
@@ -36,6 +38,7 @@ export const CalendarModal = () => {
 
    // importamos el estado
    const { modalOpen } = useSelector(state => state.ui)
+   const { activeEvent } = useSelector(state => state.calendar)
 
    // creo este estado para manejar y agregar clases dinamicas
    const [titleValid, setTitleValid] = useState(true)
@@ -49,6 +52,13 @@ export const CalendarModal = () => {
 
    const { title, notes, start, end } = formValues
 
+   useEffect(() => {
+      if (activeEvent) {
+         setFormValues(activeEvent)
+      }
+   }, [activeEvent])
+
+
    const handleChange = ({ target }) => {
 
       setFormValues({
@@ -60,7 +70,14 @@ export const CalendarModal = () => {
 
 
    const closeModal = () => {
-      //TODO: cerrar modal
+
+      setFormValues({
+         title: '',
+         notes: '',
+         start: dateStart,
+         end: dateEnd
+      })
+      dispatch(eventClearActive())
       dispatch(uiCloseModal())
 
    }
@@ -99,6 +116,16 @@ export const CalendarModal = () => {
       //TODO: cuando todo sale bien claro falta mas cosas
       //TODO:  realizar grabación
       setTitleValid(true)
+
+      dispatch(eventAddNew({
+         ...formValues,
+         id: new Date().getTime(),
+         user: {
+            _id: 123,
+            name: "jeyson"
+         }
+      }))
+
       closeModal()
    }
 

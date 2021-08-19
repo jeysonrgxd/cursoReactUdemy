@@ -10,7 +10,7 @@ import { messages } from '../../helpers/calendar-messages-es';
 import { CalendarEvent } from './CalendarEvent'
 import { useState } from 'react'
 import { CalendarModal } from './CalendarModal'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 // importamos las acciones para manejar l estado
 import { uiOpenModal } from '../../actions/ui'
@@ -24,36 +24,34 @@ moment.locale("es")
 const localizer = momentLocalizer(moment)
 
 // creamos nuestra lista de eventos
-const events = [
-   {
-      title: "Cumpleaños del jefe",
-      start: moment().add(2, 'hours').toDate(),
-      end: moment().add(4, 'hours').toDate(),
-      bgcolor: '#a10303',
-      user: {
-         _id: "2H3NFI3NDKSDKS",
-         name: "Jeyson"
-      }
+// const events = [
+//    {
+//       title: "Cumpleaños del jefe",
+//       start: moment().add(2, 'hours').toDate(),
+//       end: moment().add(4, 'hours').toDate(),
+//       bgcolor: '#a10303',
+//       user: {
+//          _id: "2H3NFI3NDKSDKS",
+//          name: "Jeyson"
+//       }
 
-   }
-]
+//    }
+// ]
 
 export const CalendarScreen = () => {
 
    // cramos un estado para manejar y actualizar la vista en donde estamos
    const [lastview, setLastview] = useState(localStorage.getItem("lastView") || "month")
    const dispatch = useDispatch()
+   const { events } = useSelector(state => state.calendar)
 
    // creamos eventos que estaran pendientes a acciones que van asuceder
    const onDoubleClick = (e) => {
-      console.log(e);
       dispatch(uiOpenModal())
    }
 
    const onSelect = (e) => {
-      console.log(e);
       dispatch(eventSetActive(e))
-      dispatch(uiOpenModal())
    }
 
    const onViewChange = (e) => {

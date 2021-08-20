@@ -6,7 +6,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew, eventClearActive } from '../../actions/events';
+import { eventAddNew, eventClearActive, eventUpdate } from '../../actions/events';
 import { useEffect } from 'react';
 
 
@@ -117,14 +117,21 @@ export const CalendarModal = () => {
       //TODO:  realizar grabación
       setTitleValid(true)
 
-      dispatch(eventAddNew({
-         ...formValues,
-         id: new Date().getTime(),
-         user: {
-            _id: 123,
-            name: "jeyson"
-         }
-      }))
+      if (activeEvent) {
+         dispatch(eventUpdate({ ...formValues }))
+      }
+      else {
+         dispatch(eventAddNew({
+            ...formValues,
+            id: new Date().getTime(),
+            user: {
+               _id: 123,
+               name: "jeyson"
+            }
+         }))
+
+      }
+
 
       closeModal()
    }

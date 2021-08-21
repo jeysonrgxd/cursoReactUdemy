@@ -14,8 +14,9 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // importamos las acciones para manejar l estado
 import { uiOpenModal } from '../../actions/ui'
-import { eventSetActive } from '../../actions/events'
+import { eventClearActive, eventSetActive } from '../../actions/events'
 import { AddNewFab } from './AddNewFab'
+import { DeleteEventFab } from '../ui/DeleteEventFab'
 
 // como el calendario que estamos utilziando moment solo cambiamos el idioma en este para que se cambie los que falta traducirte
 moment.locale("es")
@@ -43,7 +44,7 @@ export const CalendarScreen = () => {
    // cramos un estado para manejar y actualizar la vista en donde estamos
    const [lastview, setLastview] = useState(localStorage.getItem("lastView") || "month")
    const dispatch = useDispatch()
-   const { events } = useSelector(state => state.calendar)
+   const { events, activeEvent } = useSelector(state => state.calendar)
 
    // creamos eventos que estaran pendientes a acciones que van asuceder
    const onDoubleClick = (e) => {
@@ -57,6 +58,10 @@ export const CalendarScreen = () => {
    const onViewChange = (e) => {
       setLastview(e)
       localStorage.setItem("lastView", e)
+   }
+
+   const onSelectSlot = (e) => {
+      dispatch(eventClearActive())
    }
 
    // cambiamos los estylos del evento del calendario, este callback recive sus parametros de calendar
@@ -89,10 +94,14 @@ export const CalendarScreen = () => {
             onSelectEvent={onSelect}
             onView={onViewChange}
             view={lastview}
+            onSelectSlot={onSelectSlot}
+            selectable={true}
             components={{
                event: CalendarEvent
             }}
          ></Calendar>
+
+         {activeEvent && <DeleteEventFab></DeleteEventFab>}
 
          <AddNewFab></AddNewFab>
 

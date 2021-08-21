@@ -76,3 +76,10 @@ html,body{
    line-height: calc(var(--height) / 2);
    right: 25px;
 }
+
+.fab-danger{
+   bottom: 25px;
+   padding: 10px;
+   position: fixed;
+   left: 25px;
+}
